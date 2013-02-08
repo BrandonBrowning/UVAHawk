@@ -1,4 +1,4 @@
-
+#!/usr/bin/python
 import csv
 import datetime
 import urllib
