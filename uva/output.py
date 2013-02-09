@@ -1,10 +1,13 @@
 
-body_template_path = "body_template.txt"
-output_to_html_path = "output/index.html"
+import datetime
+
+body_template_path = "body_template.html"
+output_html_path = "output/index.html"
+output_last_modified_path = "output/last_modified.json"
 
 title = "ACMUA SIGCOMP - Leaderboard"
 css = ["css/bootstrap.min.css", "css/font-awesome.min.css", "css/site.css"]
-js = ["js/jquery.min.js"]
+js = ["js/jquery.min.js", "http://d3js.org/d3.v3.min.js", "js/site.js"]
 
 def wrap_body_to_html(body):
 	def path_to_css_link(path):
@@ -85,6 +88,9 @@ def output_to_html(users, friday_problems):
 		body = f.read().replace("**TABLE**", table)
 		body = body.replace("**WINNER**", winner_text(users, friday_problems))
 
-	with open(output_to_html_path, 'w') as f:
+	with open(output_last_modified_path, 'w') as f:
+		f.write("\"{0}\"".format(datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S")))
+
+	with open(output_html_path, 'w') as f:
 		html = wrap_body_to_html(body)
 		f.write(html)

@@ -1,36 +1,11 @@
 
-import csv
 import datetime
 import re
 import urllib
 
-from uva import *
 from bs4 import BeautifulSoup
-
-class FancyCsvLine:
-    def __init__(self, pairs):
-        self.__dict__ = pairs
-
-class FancyCsv:
-	def __init__(self, path):
-		self.rows = []
-
-		with open(path, 'r') as f:
-			reader = csv.reader(f)
-			i = 0
-
-			for line in reader:
-				if i == 0:
-					header = line
-				else:
-					self.rows.append(FancyCsvLine(dict(zip(header, line))))
-
-				i += 1
-
-	def __iter__(self):
-		for row in self.rows:
-			yield row
-
+from chickensalad import *
+import uva
 
 def next_friday():
 	day = datetime.date.today()
@@ -43,10 +18,10 @@ def next_friday():
 
 def friday_problem_set():
 	friday_string = next_friday().strftime("%Y-%m-%d")
-	return FancyCsv("config/problems/" + friday_string + ".csv")
+	return StubCSV("config/problems/" + friday_string + ".csv")
 
 def user_map():
-	return FancyCsv("config/user_map.csv")
+	return StubCSV("config/user_map.csv")
 
 def profile_url(urlid):
 	return "http://uva.onlinejudge.org/index.php?option=onlinejudge&Itemid=20&page=show_authorstats&userid=" + str(urlid)

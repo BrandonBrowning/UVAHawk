@@ -1,7 +1,29 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>ACMUA SIGCOMP - Leaderboard</title><link rel="stylesheet" href="css/bootstrap.min.css"><link rel="stylesheet" href="css/font-awesome.min.css"><link rel="stylesheet" href="css/site.css"><script src="js/jquery.min.js"></script></head><body><div class="container-narrow">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>ACMUA SIGCOMP - Leaderboard</title><link rel="stylesheet" href="css/bootstrap.min.css"><link rel="stylesheet" href="css/font-awesome.min.css"><link rel="stylesheet" href="css/site.css"><script src="js/jquery.min.js"></script><script src="http://d3js.org/d3.v3.min.js"></script><script src="js/site.js"></script></head><body><div class="container-narrow">
   <div class="jumbotron">
     <h1>Eric Arndt has solved all of the problems!</h1>
-    <hr/>
+    <br/><br/><br/>
     <table class="table"><thead><tr><th></th><th>(102) Ecological Bin Packing</th><th>(272) Tex Quotes</th><th>(10038) Jolly Jumpers</th><th>(10035) Primary Arithmetic</th><th>(673) Parenthesis Balance</th><th>(439) Knight Moves</th></tr></thead><tbody><tr><td>Eric Arndt</td><td><i class="icon-ok icon-2x"></i></td><td><i class="icon-ok icon-2x"></i></td><td><i class="icon-ok icon-2x"></i></td><td><i class="icon-ok icon-2x"></i></td><td><i class="icon-ok icon-2x"></i></td><td><i class="icon-ok icon-2x"></i></td></tr><tr><td>Brandon Browning</td><td><i class="icon-ok icon-2x"></i></td><td><i class="icon-ok icon-2x"></i></td><td><i class="icon-ok icon-2x"></i></td><td><i class="icon-ok icon-2x"></i></td><td><i class="icon-ok icon-2x"></i></td><td><i class="icon-remove icon-2x"></i></td></tr></tbody></table>
+    <br/><br/>
+    <p id="pretty-last-updated"/>
+    <script>
+    	var page_first_loaded = new Date();
+
+    	function update_last_updated() {
+			$.getJSON('last_modified.json', function(data) {
+				var last_modified = new Date(data);
+
+				if (last_modified > page_first_loaded) {
+					document.location.reload(true);
+				} else {
+					$("#pretty-last-updated").text("Data last updated " + prettyDate(data));
+				}
+			});
+		}
+
+    	$(function() {
+    		setInterval(update_last_updated, 10 * 60 * 1000);
+    		update_last_updated();
+    	});
+    </script>
   </div>
 </div></body></html>

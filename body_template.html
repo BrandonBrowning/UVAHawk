@@ -1,0 +1,29 @@
+<div class="container-narrow">
+  <div class="jumbotron">
+    <h1>**WINNER**</h1>
+    <br/><br/><br/>
+    **TABLE**
+    <br/><br/>
+    <p id="pretty-last-updated"/>
+    <script>
+    	var page_first_loaded = new Date();
+
+    	function update_last_updated() {
+			$.getJSON('last_modified.json', function(data) {
+				var last_modified = new Date(data);
+
+				if (last_modified > page_first_loaded) {
+					document.location.reload(true);
+				} else {
+					$("#pretty-last-updated").text("Data last updated " + prettyDate(data));
+				}
+			});
+		}
+
+    	$(function() {
+    		setInterval(update_last_updated, 10 * 60 * 1000);
+    		update_last_updated();
+    	});
+    </script>
+  </div>
+</div>
