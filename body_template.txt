@@ -1,0 +1,7 @@
+<div class="container-narrow">
+  <div class="jumbotron">
+    <h1>**WINNER**</h1>
+    <hr/>
+    **TABLE**
+  </div>
+</div>
