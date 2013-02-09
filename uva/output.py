@@ -3,7 +3,7 @@ body_template_path = "body_template.txt"
 output_to_html_path = "output/index.html"
 
 title = "ACMUA SIGCOMP - Leaderboard"
-css = ["css/bootstrap.min.css", "css/site.css"]
+css = ["css/bootstrap.min.css", "css/font-awesome.min.css", "css/site.css"]
 js = ["js/jquery.min.js"]
 
 def wrap_body_to_html(body):
@@ -19,7 +19,7 @@ def wrap_body_to_html(body):
 	return "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>{0}</title>{1}{2}</head><body>{3}</body></html>".format(title, css_links, js_scripts, body)
 
 def bool_to_completed_icon(completed):
-	return "<i class=\"{0}\"></i>".format("icon-ok" if completed else "icon-remove")
+	return "<i class=\"{0} icon-2x\"></i>".format("icon-ok" if completed else "icon-remove")
 
 def generate_problem_completed_table(users, friday_problems):
 	def list_to_html_header(items):
