@@ -25,36 +25,34 @@ def wrap_body_to_html(body):
 def bool_to_completed_icon(completed):
 	return "<i class=\"{0} icon-3x\"></i>".format("icon-ok" if completed else "icon-remove")
 
+def friday_problems_to_table_header(friday_problems):
+	cells = []
+	cells.append("")
+
+	for problem in friday_problems:
+		cells.append("<a href=\"{0}\">{1.displayid} - {1.name}</a>".format(problem_url(problem.urlid), problem))
+
+	cells_html = map(lambda cell: "<th>{0}</th>".format(cell), cells)
+	return "<tr>{0}</tr>".format("".join(cells_html))
+
+def user_to_table_row(user, friday_problems):
+	cells = []
+	cells.append("<h3><a href=\"{0}\">{1}</a></h3>".format(profile_url(user.urlid), user.name))
+	for problem in friday_problems:
+		completed = int(problem.displayid) in user.solved
+		icon = bool_to_completed_icon(completed)
+
+		cells.append(icon)
+
+	cells_html = map(lambda cell: "<td>{0}</td>".format(cell), cells)
+	return "<tr>{0}</tr>".format("".join(cells_html))
+	
+
 def generate_problem_completed_table(users, friday_problems):
-	def list_to_html_header(items):
-		return "<tr>" + "".join(map(lambda x: "<th>" + str(x) + "</th>", items)) + "</tr>"
+	header_html = friday_problems_to_table_header(friday_problems)
+	user_html = "".join(map(lambda user: user_to_table_row(user, friday_problems), users))
 
-	def list_to_html_row(items):
-		item_list = list(items)
-		name_row = "<h3>{0}</h3>".format(item_list[0])
-		combined_rows = map(lambda x: "<td>" + str(x) + "</td>", [name_row] + item_list[1:])
-		
-		return "<tr>{0}</tr>".format("".join(combined_rows))
-
-	header_list = [""] + map(lambda x: "<a href=\"{0}\">{1.displayid} - {1.name}</a>".format(problem_url(x.urlid), x), friday_problems)
-	header_html = list_to_html_header(header_list)
-
-	# [["<td>{0}</td>".format(user.name)] + [bool_to_completed_icon(problem in user.solved) for problem in friday_problems] for user in users]
-	user_completed_list = []
-	for user in users:
-		user_list = []
-		user_list.append(user.name)
-
-		for problem in friday_problems:
-			completed = int(problem.displayid) in user.solved
-			icon = bool_to_completed_icon(completed)
-
-			user_list.append(icon)
-
-		user_completed_list.append(user_list)
-
-	user_completed_html = "".join(map(list_to_html_row, user_completed_list))
-	return "<table class=\"table\">" + "<thead>" + header_html + "</thead>" + "<tbody>" + user_completed_html + "</tbody>" + "</table>"
+	return "<table class=\"table\"><thead>{0}</thead><tbody>{1}</tbody></table>".format(header_html, user_html)
 
 def winner_text(users, friday_problems):
 	best_users = []
@@ -66,7 +64,7 @@ def winner_text(users, friday_problems):
 		solved = len(set(user.solved) & friday_set)
 		if solved > best_solved:
 			best_solved = solved
-			best_users = [user.name]
+			best_users = [user.uva_name]
 
 	if best_solved == 0:
 		return "Nobody has solved any problems :("

@@ -44,13 +44,15 @@ def profile_solved_displayids(soup):
 		yield int(row.td.a.string)
 
 class UVAUser:
-	def __init__(self, urlid):
-		url = profile_url(urlid)
+	def __init__(self, user_stub):
+		self.__dict__ = user_stub.__dict__
+
+		url = profile_url(user_stub.urlid)
 		html = urllib.urlopen(url)
 		soup = BeautifulSoup(html)
 
-		self.name = profile_display_name(soup)
+		self.uva_name = profile_display_name(soup)
 		self.solved = list(profile_solved_displayids(soup))
 
 def user_list():
-	return map(lambda x: UVAUser(x.urlid), user_map())
+	return map(lambda user_stub: UVAUser(user_stub), user_map())
