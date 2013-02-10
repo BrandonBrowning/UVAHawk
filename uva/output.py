@@ -1,5 +1,6 @@
 
 import datetime
+from uva import *
 
 body_template_path = "body_template.html"
 output_html_path = "output/index.html"
@@ -22,16 +23,20 @@ def wrap_body_to_html(body):
 	return "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>{0}</title>{1}{2}</head><body>{3}</body></html>".format(title, css_links, js_scripts, body)
 
 def bool_to_completed_icon(completed):
-	return "<i class=\"{0} icon-2x\"></i>".format("icon-ok" if completed else "icon-remove")
+	return "<i class=\"{0} icon-3x\"></i>".format("icon-ok" if completed else "icon-remove")
 
 def generate_problem_completed_table(users, friday_problems):
 	def list_to_html_header(items):
 		return "<tr>" + "".join(map(lambda x: "<th>" + str(x) + "</th>", items)) + "</tr>"
 
 	def list_to_html_row(items):
-		return "<tr>" + "".join(map(lambda x: "<td>" + str(x) + "</td>", items)) + "</tr>"
+		item_list = list(items)
+		name_row = "<h3>{0}</h3>".format(item_list[0])
+		combined_rows = map(lambda x: "<td>" + str(x) + "</td>", [name_row] + item_list[1:])
+		
+		return "<tr>{0}</tr>".format("".join(combined_rows))
 
-	header_list = [""] + map(lambda x: "({0.displayid}) {0.name}".format(x), friday_problems)
+	header_list = [""] + map(lambda x: "<a href=\"{0}\">{1.displayid} - {1.name}</a>".format(problem_url(x.urlid), x), friday_problems)
 	header_html = list_to_html_header(header_list)
 
 	# [["<td>{0}</td>".format(user.name)] + [bool_to_completed_icon(problem in user.solved) for problem in friday_problems] for user in users]

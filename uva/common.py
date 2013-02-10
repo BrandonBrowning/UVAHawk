@@ -26,6 +26,9 @@ def user_map():
 def profile_url(urlid):
 	return "http://uva.onlinejudge.org/index.php?option=onlinejudge&Itemid=20&page=show_authorstats&userid=" + str(urlid)
 
+def problem_url(urlid):
+	return "http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=" + str(urlid)
+
 user_name_extract_regex = re.compile("(.*)\s\(.*\)")
 def profile_display_name(soup):
 	content_headings = soup.find_all("div", class_="contentheading")
