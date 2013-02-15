@@ -50,7 +50,11 @@ def user_to_table_row(user, friday_problems):
 
 def generate_problem_completed_table(users, friday_problems):
 	header_html = friday_problems_to_table_header(friday_problems)
-	user_html = "".join(map(lambda user: user_to_table_row(user, friday_problems), users))
+
+	users_completed = [(u, u.completed(friday_problems)) for u in users]
+	users_sorted = [t[0] for t in sorted(users_completed, reverse=True, key=lambda x: x[1])]
+
+	user_html = "".join(map(lambda user: user_to_table_row(user, friday_problems), users_sorted))
 
 	return "<table class=\"table\"><thead>{0}</thead><tbody>{1}</tbody></table>".format(header_html, user_html)
 
@@ -62,7 +66,10 @@ def winner_text(users, friday_problems):
 
 	for user in users:
 		solved = len(set(user.solved) & friday_set)
-		if solved > best_solved:
+
+		if solved == best_solved:
+			best_users.append(user.uva_name)
+		elif solved > best_solved:
 			best_solved = solved
 			best_users = [user.uva_name]
 

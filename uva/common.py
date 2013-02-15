@@ -54,5 +54,8 @@ class UVAUser:
 		self.uva_name = profile_display_name(soup)
 		self.solved = list(profile_solved_displayids(soup))
 
+	def completed(self, friday_problems):
+		return len(set(self.solved) & set([int(p.displayid) for p in friday_problems]))
+
 def user_list():
 	return map(lambda user_stub: UVAUser(user_stub), user_map())

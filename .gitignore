@@ -36,7 +36,4 @@ nosetests.xml
 
 # Generated files
 output/last_modified.json
-
-# Config files
-config/user_map.csv
-config/problems/*-*-*.csv
+output/index.html
